@@ -19,4 +19,31 @@ router.get("/students", (req,res, next) =>{
 });
 
 
+const axios = require('axios');
+
+router.get("/news-api", (req,res, next) =>{
+    // Set the API endpoint URL and parameters
+    const url = 'https://newsapi.org/v2/everything';
+    const params = {
+        q:'apple',
+        from:'2023-05-05',
+        to:'2023-05-05',
+        sortBy:'popularity',
+        apiKey: 'bb32c96502a24cafb4fc9e33851be330',
+    };
+
+    // Make the API call using axios
+    axios.get(url, { params })
+    .then(response => {
+        // Handle the API response
+        //console.log(response.data);
+        res.send(response.data);
+    })
+    .catch(error => {
+        // Handle any errors that occur
+        //console.error(error);
+        res.send(error);
+    });
+});
+
 module.exports = router;

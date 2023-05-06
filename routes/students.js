@@ -1,7 +1,11 @@
 var express = require("express");
 var router = express.Router();
 
+let userList = [{id:1, username:"Xander", email:"xander@kodego.ph", password:"qwerty1234", firstName:"Ronnie", lastName:"Estillero"},
+                {id:2, username:"ArJohn", email:"arjohn@kodego.ph", password:"qwerty1234", firstName:"Arjohn", lastName:"Lopez"},];
+
 let studentsInfo = [
+    
 	{id: 1,firstName:"Juan", lastName:"Dela Cruz", code:"001", age: 25,gender: "male", course: "Manager",birthdate:"1990-01-01"},
 	{id: 2,firstName:"Anna", lastName:"Salvador", code:"002", age: 21, gender: "female", course: "Junior Dev",birthdate:"1991-01-01"},
 	{id: 3,firstName:"Mark", lastName:"Bautista", code:"003", age: 28, gender: "male", course: "Senior Fullstack Dev",birthdate:"1992-01-01"},
@@ -13,6 +17,27 @@ let studentsInfo = [
     {id: 9,firstName:"Ralph", lastName:"Arcos", code:"006", age: 30, gender: "male", course: "Fullstack Dev",birthdate:"1996-04-01"},
     {id: 10,firstName:"Amie", lastName:"Mimo", code:"006", age: 30, gender: "female", course: "Fullstack Dev",birthdate:"1996-08-01"},
 ];
+
+router.post('/register', (req, res)=>{
+    let user = {
+        id: studentsInfo.length + 1,
+        firstName:req.body.firstName,
+        lastName:req.body.lastName,
+        email:req.body.email,
+        username:req.body.username,
+        password:req.body.password,
+    }
+    userList.push(user);
+    res.status(200).send(user);
+
+});
+
+router.post('/login', (req, res)=>{
+    
+    let user = userList.find((item) => item.email === req.body.email && item.password === req.body.password);
+    res.status(200).send(user ?? {errMsg: "Invalid Login: User not found!"});
+
+});
 
 router.get("/", (req, res, next) => {
     res.send(studentsInfo);
